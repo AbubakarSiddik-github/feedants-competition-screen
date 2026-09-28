@@ -9,14 +9,14 @@ const User = require("../models/User");
 const { requireAuth, optionalAuth } = require("../middleware/auth");
 const { getPhaseInfo, getCtaState } = require("../utils/competitionPhase");
 
-// Rate limiter specifically for registration.
-// Keyed by JWT userId (not IP) so:
-//   • Each user is individually limited — correct for production
-//   • Load tests from the same machine (same IP, distinct users) work correctly
+// Rate limiter for registration — keyed by userId (requireAuth runs first so
+// req.user is always set). validate.keyGeneratorIpFallback disabled because
+// we intentionally key by userId, not IP.
 const registerLimiter = rateLimit({
   windowMs: 60 * 1000,
   max: 5,
-  keyGenerator: (req) => req.user?.id || req.ip,
+  keyGenerator: (req) => String(req.user?.id || req.ip),
+  validate: { keyGeneratorIpFallback: false },
   message: { error: "Too many registration attempts. Please wait a minute." },
   standardHeaders: true,
   legacyHeaders: false,
