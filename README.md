@@ -187,3 +187,5 @@ feedants-competition-screen/
     ├── App.js
     └── .env.example
 ```
+#   f e e d a n t s - c o m p e t i t i o n - s c r e e n  
+ 
