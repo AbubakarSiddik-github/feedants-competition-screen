@@ -1,13 +1,12 @@
-// babel.config.js — NativeWind v4 + Expo SDK 57
+// babel.config.js
 module.exports = function (api) {
   api.cache(true);
   return {
     presets: [
       ["babel-preset-expo", { jsxImportSource: "nativewind" }],
     ],
-    plugins: [
-      // react-native-reanimated/plugin must be last
-      "react-native-reanimated/plugin",
-    ],
+    // react-native-reanimated/plugin removed — not needed for Expo Go SDK 58
+    // (worklets are handled internally by the SDK)
+    plugins: [],
   };
 };
